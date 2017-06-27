@@ -26,7 +26,7 @@ import android.widget.ToggleButton;
 import android.os.Vibrator;
 
 import com.tatoado.GreenHouse.R;
-//Version Final
+//Vasdasd
 public class MainActivity extends Activity implements SensorEventListener, CompoundButton.OnCheckedChangeListener {
 
     private boolean estadoLuz;
