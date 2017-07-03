@@ -96,7 +96,7 @@
             android:layout_alignLeft="@+id/ventilarOn"
             android:layout_alignRight="@+id/ventilarOff"
             android:layout_alignStart="@+id/ventilarOn"
-            android:text="Regar (10 segundos)" />
+            android:text="Regar (5 segundos)" />
 
         <ToggleButton
             android:id="@+id/toggleAutomatic"

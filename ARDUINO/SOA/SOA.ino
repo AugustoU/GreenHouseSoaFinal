@@ -6,6 +6,7 @@ OneWire ourWire(Pin);                //Se establece el pin declarado como bus pa
 DallasTemperature sensors(&ourWire); //Se llama a la librería DallasTemperature
 
 /////// PINES SALIDAS///////
+int ledPuerta = 9;   //DIGITAL
 int bombaAgua = 11; // RELE1
 int luz       = 13; // DIGITAL
 int cooler    = 12; // DIGITAL
@@ -45,6 +46,7 @@ float valorVoltaje[5] = {0, 0, 0, 0, 0};
 
 void setup() {
 
+  pinMode(ledPuerta, OUTPUT);
   pinMode(cooler, OUTPUT);
   pinMode(bombaAgua, OUTPUT);
   pinMode(luz, OUTPUT);
@@ -199,9 +201,11 @@ void controlPuerta() {
     cantMuestras=0;
     if (muestraAbierta-3 > muestraCerrada){
       puertaAbierta=true;
+      digitalWrite(ledPuerta, HIGH);
       //Serial.println("ABIERTO");
     }else{
       puertaAbierta=false;
+       digitalWrite(ledPuerta, LOW);
       //Serial.println("CERRADO");
     }
     muestraAbierta=0;
@@ -216,15 +220,14 @@ void controlPuerta() {
 void controlLuz() {
   
     cantLuz = analogRead(sensorLuz);
-    
    
     if ( cantLuz > 60 && !puertaAbierta ){
     // ES DE DIA
       esDeDia = true;
-      digitalWrite(luz, LOW); //LED arduino OFF
+      digitalWrite(luz, LOW); //LAMPARA OFF
       estado_luz = HIGH;
     }else{
-    // ES DE NOCHE   
+    // ES DE NOCHE
       esDeDia = false;
       digitalWrite(luz, HIGH); //LED arduino OFF
       estado_luz = LOW;

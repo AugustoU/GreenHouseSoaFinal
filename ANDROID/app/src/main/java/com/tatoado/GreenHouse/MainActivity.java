@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -30,7 +31,7 @@ import android.widget.ToggleButton;
 import android.os.Vibrator;
 
 import com.tatoado.GreenHouse.R;
-//Vasdasd
+
 
 public class MainActivity extends Activity implements SensorEventListener, CompoundButton.OnCheckedChangeListener {
 
@@ -41,7 +42,6 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
     Button btnOn, btnOff,regarOn,ventilarOn,ventilarOff,btnDatos,btnDatosHum;
     TextView txtString;
     TextView txtStringLength;
-    TextView sensorView0;
     TextView tempDeseada;
     TextView humedadDeseada;
     TextView txtSendorLDR;
@@ -97,7 +97,6 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         ingresoHum = (TextView) findViewById(R.id.ingresoHum);
         tempDeseada = (TextView) findViewById(R.id.tempDeseada);
         humedadDeseada = (TextView) findViewById(R.id.humedadDeseada);
-        //sensorView0 = (TextView) findViewById(R.id.sensorView0);
         txtSendorLDR = (TextView) findViewById(R.id.tv_sendorldr);
 
         bluetoothIn = new Handler() {
@@ -122,8 +121,8 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
                             String sensor0 = cadenaParseada[0].toString();
                             String sensor1 = cadenaParseada[1].toString();
                             String sensor2 = cadenaParseada[2].toString();
-                            String sensor3 = cadenaParseada[3].toString();
-                            String sensor4 = cadenaParseada[4].toString();
+                            String sensor3 = cadenaParseada[3].toString();  //Sensor de Temperatura
+                            String sensor4 = cadenaParseada[4].toString();  //Sensor de Humedad
 
                             if ( Float.valueOf(sensor1) == 0.00){
                                 estadoLuz = false;
@@ -133,9 +132,11 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
 
                             if ( Float.valueOf(sensor4) > Float.parseFloat(humedadDeseada.getText().toString())){
                                 textDatoHumedad.setText("Seco");
+                                textDatoHumedad.setTextColor(Color.RED);
 
                             }else {
                                 textDatoHumedad.setText("Humedo");
+                                textDatoHumedad.setTextColor(Color.GREEN);
                             }
                             textDatoTemperatura.setText(sensor3.toString());
 
@@ -154,14 +155,14 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         btnOff.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mConnectedThread.write("2");    // Send "0" via Bluetooth
-                Toast.makeText(getBaseContext(), "Apagar el LED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Luz Encendida", Toast.LENGTH_SHORT).show();
             }
         });
 
         btnOn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mConnectedThread.write("1");    // Send "1" via Bluetooth
-                Toast.makeText(getBaseContext(), "Encender el LED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Luz Apagada", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -330,8 +331,8 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         if (sensorType == Sensor.TYPE_LIGHT) {
             if( values2[0] < 15 ){
 
-                v.vibrate(1000);
-                Toast.makeText(getBaseContext(), "Hay poca luz: " + Float.toString(values2[0]), Toast.LENGTH_SHORT).show();
+                v.vibrate(200);
+                //Toast.makeText(getBaseContext(), "Hay poca luz: " + Float.toString(values2[0]), Toast.LENGTH_SHORT).show();
             }
         }
         sensorCorriendo = false;
