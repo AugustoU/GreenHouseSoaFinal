@@ -39,7 +39,12 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
     private boolean sensorCorriendo = false;
     private final static float ACC = 30;
     private SensorManager sensor;
+
+    // BOTONES
     Button btnOn, btnOff,regarOn,ventilarOn,ventilarOff,btnDatos,btnDatosHum;
+    ToggleButton toggleAutomatic;
+
+    // TEXTOS
     TextView txtString;
     TextView txtStringLength;
     TextView tempDeseada;
@@ -49,16 +54,15 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
     TextView textDatoTemperatura;
     TextView ingresoTemp;
     TextView ingresoHum;
-    ToggleButton toggleAutomatic;
-    Handler bluetoothIn;
 
+    Handler bluetoothIn;
     final int handlerState = 0;
+
+    // CONEXION DEL BLUETOOTH
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private StringBuilder recDataString = new StringBuilder();
-
     private ConnectedThread mConnectedThread;
-
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private static String address = null;
@@ -69,18 +73,18 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
 
         setContentView(R.layout.activity_main);
         sensor = (SensorManager) getSystemService(SENSOR_SERVICE);
-        boolean b = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
 
-        // SI NO SE PUDO REGISTRAR EL SENSOR CERERAMOS
+        //SENSORES DE ANDROID
+        boolean b = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
         if( b == false ) {
             this.onDestroy();
         }
         boolean c = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_UI);
-        // SI NO SE PUDO REGISTRAR EL SENSOR CERERAMOS
         if( c == false ) {
             this.onDestroy();
         }
-        //Componentes del activityMain
+
+        // VARIABLES
         textDatoHumedad = (TextView) findViewById(R.id.textDatoHumedadLayOut);
         textDatoTemperatura = (TextView) findViewById(R.id.textDatoTemperaturaLayOut);
         btnOn = (Button) findViewById(R.id.btnOn);
@@ -99,6 +103,8 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         humedadDeseada = (TextView) findViewById(R.id.humedadDeseada);
         txtSendorLDR = (TextView) findViewById(R.id.tv_sendorldr);
 
+
+        // HANDLE CON EL BLUETOOTH
         bluetoothIn = new Handler() {
             @Override
             public void handleMessage(android.os.Message msg) {
@@ -152,6 +158,8 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
 
+
+        /////////////////// LISTENERS DE LOS BOTONES /////////////////////
         btnOff.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mConnectedThread.write("2");    // Send "0" via Bluetooth
@@ -214,15 +222,15 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
                 mConnectedThread.write("X");
             }
         });
-
     }
+
+
 
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
-
     }
+
 
     @Override
     public void onResume() {
@@ -260,13 +268,15 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         mConnectedThread.write("x");
     }
 
+
+
+
     @Override
     public void onPause()
     {
         super.onPause();
         try
         {
-
             btSocket.close();
         } catch (IOException e2) {
 
@@ -274,6 +284,9 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
     }
 
 
+
+
+    /////////////////// CHECKEAMOS EL ESTADO DEL BLUETOOTH /////////////////////
     private void checkBTState() {
 
         if(btAdapter==null) {
@@ -287,6 +300,10 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         }
     }
 
+
+
+
+    /////////////////// GESTIONAMOS LOS SENSORES /////////////////////
     @Override
     synchronized public void onSensorChanged(SensorEvent sensorEvent) {
         int sensorType = sensorEvent.sensor.getType();
@@ -350,7 +367,7 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
 
 
 
-    // creamos una nueva clase para conectarnos al hilo
+    // CONEXION DEL BLUETOOTH //
     private class ConnectedThread extends Thread {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
