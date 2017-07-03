@@ -4,15 +4,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,19 +31,24 @@ import android.os.Vibrator;
 
 import com.tatoado.GreenHouse.R;
 //Vasdasd
+
 public class MainActivity extends Activity implements SensorEventListener, CompoundButton.OnCheckedChangeListener {
 
     private boolean estadoLuz;
     private boolean sensorCorriendo = false;
     private final static float ACC = 30;
     private SensorManager sensor;
-    Button btnOn, btnOff,regarOn,ventilarOn,ventilarOff;
+    Button btnOn, btnOff,regarOn,ventilarOn,ventilarOff,btnDatos,btnDatosHum;
     TextView txtString;
     TextView txtStringLength;
     TextView sensorView0;
+    TextView tempDeseada;
+    TextView humedadDeseada;
     TextView txtSendorLDR;
     TextView textDatoHumedad;
     TextView textDatoTemperatura;
+    TextView ingresoTemp;
+    TextView ingresoHum;
     ToggleButton toggleAutomatic;
     Handler bluetoothIn;
 
@@ -76,13 +85,19 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
         textDatoTemperatura = (TextView) findViewById(R.id.textDatoTemperaturaLayOut);
         btnOn = (Button) findViewById(R.id.btnOn);
         btnOff = (Button) findViewById(R.id.btnOff);
+        btnDatos = (Button) findViewById(R.id.btnDatos);
+        btnDatosHum = (Button) findViewById(R.id.btnDatosHum);
         regarOn = (Button) findViewById(R.id.regarOn);
         ventilarOn = (Button) findViewById(R.id.ventilarOn);
         ventilarOff = (Button) findViewById(R.id.ventilarOff);
         toggleAutomatic = (ToggleButton) findViewById(R.id.toggleAutomatic);
         txtString = (TextView) findViewById(R.id.txtString);
         txtStringLength = (TextView) findViewById(R.id.testView1);
-        sensorView0 = (TextView) findViewById(R.id.sensorView0);
+        ingresoTemp = (TextView) findViewById(R.id.ingresoTemp);
+        ingresoHum = (TextView) findViewById(R.id.ingresoHum);
+        tempDeseada = (TextView) findViewById(R.id.tempDeseada);
+        humedadDeseada = (TextView) findViewById(R.id.humedadDeseada);
+        //sensorView0 = (TextView) findViewById(R.id.sensorView0);
         txtSendorLDR = (TextView) findViewById(R.id.tv_sendorldr);
 
         bluetoothIn = new Handler() {
@@ -96,9 +111,9 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
                     int endOfLineIndex = recDataString.indexOf("~");                   //donde termina nuestra linea de comunicacion
                     if (endOfLineIndex > 0) {                                           // nos aseguramos que encontramos el fin de linea
                         String dataInPrint = recDataString.substring(0, endOfLineIndex);    //  tomamos el string
-                        txtString.setText("Datos recibidos = " + dataInPrint);
+                        txtString.setText(dataInPrint);
                         int dataLength = dataInPrint.length();							//tomamos el tamanio del string recibido
-                        txtStringLength.setText("Tamaño del String = " + String.valueOf(dataLength));
+                        //txtStringLength.setText("Tamaño del String = " + String.valueOf(dataLength));
 
                         if (recDataString.charAt(0) == '#')								//detectamos comienzo de la comunicacion
                         {
@@ -116,8 +131,9 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
                                 estadoLuz = true;
                             }
 
-                            if ( Float.valueOf(sensor4) > 800) {
+                            if ( Float.valueOf(sensor4) > Float.parseFloat(humedadDeseada.getText().toString())){
                                 textDatoHumedad.setText("Seco");
+                                
                             }else {
                                 textDatoHumedad.setText("Humedo");
                             }
@@ -149,6 +165,21 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
             }
         });
 
+        btnDatos.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                tempDeseada.setText(ingresoTemp.getText().toString());
+                mConnectedThread.write("t"+ ingresoTemp.getText().toString());    // Send "tTemp" via Bluetooth
+                Toast.makeText(getBaseContext(), "Temperatura Configurada", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnDatosHum.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                humedadDeseada.setText(ingresoHum.getText().toString());
+                mConnectedThread.write("h"+ ingresoHum.getText().toString());    // Send "hHumedad" via Bluetooth
+                Toast.makeText(getBaseContext(), "Humedad Configurada", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         ventilarOn.setOnClickListener(new OnClickListener() {
             @Override

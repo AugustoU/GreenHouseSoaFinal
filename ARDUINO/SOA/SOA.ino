@@ -186,12 +186,12 @@ void controlPuerta() {
   int estado = digitalRead(puerta);
   if( estado == HIGH ){
     //puertaAbierta=true;
-    Serial.println(estado);
+    //Serial.println(estado);
     muestraAbierta++;
   }else{
     //puertaAbierta=false;
     muestraCerrada++;
-    Serial.println(estado);
+    //Serial.println(estado);
   }
   cantMuestras++;
 
@@ -199,10 +199,10 @@ void controlPuerta() {
     cantMuestras=0;
     if (muestraAbierta-3 > muestraCerrada){
       puertaAbierta=true;
-      Serial.println("ABIERTO");
+      //Serial.println("ABIERTO");
     }else{
       puertaAbierta=false;
-      Serial.println("CERRADO");
+      //Serial.println("CERRADO");
     }
     muestraAbierta=0;
     muestraCerrada=0;
