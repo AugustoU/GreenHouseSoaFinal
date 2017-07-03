@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements SensorEventListener, Compo
 
                             if ( Float.valueOf(sensor4) > Float.parseFloat(humedadDeseada.getText().toString())){
                                 textDatoHumedad.setText("Seco");
-                                
+
                             }else {
                                 textDatoHumedad.setText("Humedo");
                             }

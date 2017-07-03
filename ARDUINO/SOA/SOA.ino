@@ -217,16 +217,17 @@ void controlLuz() {
   
     cantLuz = analogRead(sensorLuz);
     
-    if ( cantLuz > 70 && !puertaAbierta ){
+   
+    if ( cantLuz > 60 && !puertaAbierta ){
     // ES DE DIA
       esDeDia = true;
-      digitalWrite(luz, HIGH); //LED arduino OFF
-      estado_luz = LOW;
+      digitalWrite(luz, LOW); //LED arduino OFF
+      estado_luz = HIGH;
     }else{
     // ES DE NOCHE   
       esDeDia = false;
-      digitalWrite(luz, LOW); //LED arduino OFF
-      estado_luz = HIGH;
+      digitalWrite(luz, HIGH); //LED arduino OFF
+      estado_luz = LOW;
     }
 }
 

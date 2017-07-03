@@ -12,13 +12,13 @@
             android:id="@+id/tv_sendorldr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView10"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView10"
             android:layout_marginTop="35dp"
             android:text="Iluminación:"
             android:textColor="@color/background_floating_material_dark"
-            android:textSize="22sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/textView10"
-            android:layout_alignStart="@+id/textView10" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/ventilar"
@@ -30,7 +30,7 @@
             android:layout_marginTop="13dp"
             android:text="Ventilación:"
             android:textColor="@color/background_floating_material_dark"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnOn"
@@ -84,7 +84,7 @@
             android:layout_marginTop="13dp"
             android:text="Regar: "
             android:textColor="@color/background_floating_material_dark"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/regarOn"
@@ -124,19 +124,17 @@
             android:layout_marginTop="38dp"
             android:text="Temperatura Deseada:"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnDatos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Guardar"
             android:layout_alignBottom="@+id/ingresoTemp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginStart="6dp"
-            android:layout_toEndOf="@+id/textView10"
-            android:layout_toRightOf="@+id/textView10"
-            android:text="Guardar" />
+            android:layout_alignLeft="@+id/btnDatosHum"
+            android:layout_alignStart="@+id/btnDatosHum" />
 
         <TextView
             android:id="@+id/txtString"
@@ -171,7 +169,7 @@
             android:text="-"
             android:textAlignment="center"
             android:textColor="@color/abc_input_method_navigation_guard"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -179,14 +177,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="0"
+            android:layout_marginTop="35dp"
             android:layout_row="0"
             android:text="Temperatura Actual:"
             android:textColor="@color/background_floating_material_dark"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_below="@+id/ingresoHum"
-            android:layout_alignLeft="@+id/ingresoHum"
-            android:layout_alignStart="@+id/ingresoHum"
-            android:layout_marginTop="15dp" />
+            android:layout_alignLeft="@+id/textHumedad"
+            android:layout_alignStart="@+id/textHumedad" />
 
         <TextView
             android:id="@+id/textHumedad"
@@ -196,10 +194,11 @@
             android:layout_row="1"
             android:text="Humedad Actual: "
             android:textColor="@color/background_floating_material_dark"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_below="@+id/textDatoTemperaturaLayOut"
-            android:layout_alignLeft="@+id/textTemperatura"
-            android:layout_alignStart="@+id/textTemperatura" />
+            android:layout_alignRight="@+id/textView19"
+            android:layout_alignEnd="@+id/textView19"
+            android:layout_marginTop="9dp" />
 
         <TextView
             android:id="@+id/textDatoTemperaturaLayOut"
@@ -215,6 +214,7 @@
             android:layout_row="0"
             android:text="-"
             android:textAlignment="center"
+            android:textColor="@android:color/black"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -231,7 +231,7 @@
             android:layout_row="1"
             android:text="-"
             android:textAlignment="center"
-            android:textColor="@color/background_floating_material_dark"
+            android:textColor="@color/abc_input_method_navigation_guard"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -245,7 +245,7 @@
             android:layout_marginTop="16dp"
             android:text="Humedad Deseada:"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -258,7 +258,7 @@
             android:text="800"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
@@ -276,10 +276,10 @@
             android:id="@+id/btnDatosHum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Guardar"
             android:layout_alignBottom="@+id/ingresoHum"
-            android:layout_alignLeft="@+id/textDatoTemperaturaLayOut"
-            android:layout_alignStart="@+id/textDatoTemperaturaLayOut"
-            android:text="Guardar" />
+            android:layout_alignRight="@+id/toggleAutomatic"
+            android:layout_alignEnd="@+id/toggleAutomatic" />
 
     </RelativeLayout>
 </LinearLayout>
